@@ -1,16 +1,15 @@
-import React from 'react';
+import React from "react";
+import "./Cards.css";
 
 function Card({ pokemon }) {
-    return (
-      <div className="Card">
-        <div className="Card__img">
-          <img src={pokemon.sprites.front_default} alt="" />
-        </div>
-        <div className="Card__name">
-          {pokemon.name}
-        </div>
+  return (
+    <div className="card">
+      <div className="Card__img">
+        <img src={pokemon.sprites.front_default} alt="" />
       </div>
-    )
-  }
-  
-  export default Card;
+      <div className="Card__name">{pokemon.name}</div>
+    </div>
+  );
+}
+
+export default Card;

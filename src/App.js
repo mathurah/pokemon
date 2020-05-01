@@ -1,120 +1,70 @@
-import React, {Component, useState, useEffect} from 'react';
-import axios from 'axios'
-import './App.css';
+import React, {useState, useEffect } from "react";
 import Card from './components/Cards'
+import "./App.css";
 
 function App() {
   //Setting constant variables + states
-  const [pokemon, setPokemon] =useState([]); 
-  const apiURL ='https://pokeapi.co/api/v2/pokemon?limit=151'; 
+  const [pokemon, setPokemon] = useState([]);
+  const [error, setError] = useState(false);
+  const apiURL = "https://pokeapi.co/api/v2/pokemon?limit=151";
 
 
+//Purpose: done after render, gets the pokemon api and then 
   useEffect(() => {
     async function fetchData() {
-    let response = await getAllPokemon(apiURL);
-    let pokemon = await loadingPokemon(response.results);
+      let response = await getAllPokemon(apiURL);
+      loadingPokemon(response.results);
     }
-    fetchData(); 
-  },[])
-  
+    fetchData();
+  });
 
-  // const fetchData = () => {
-  //   axios
-  //     .get('https://pokeapi.co/api/v2/pokemon?limit=151')
-  //     .then(response => {
-  //       setPokemon(response.data)
-  //       console.log(response.data) 
-  //     })
-
-      function getAllPokemon(url) {
-        return new Promise((resolve, reject) => {
-          fetch(url)
-            .then(res => res.json())
-            .then(data => {
-              resolve(data);
-            })
+  //Purpose: get all the Pokemon using the API call, and testing if the call went through with the catch error
+  function getAllPokemon(url) {
+    return new Promise((resolve, reject) => {
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          resolve(data);
+        })
+        .catch(error => {
+          setError(true);
+          console.error("Error occured", error);
         });
-      }
-
-
-  const loadingPokemon = async (data) => {
-    let _pokemonData = await Promise.all(data.map(async pokemon => {
-      let pokemonRecord = await getPokemon(pokemon.url);
-      return pokemonRecord;
-    }));
-
-    setPokemon(_pokemonData);
+    });
   }
 
+  const loadingPokemon = async data => {
+    let _pokemonData = await Promise.all(
+      data.map(async pokemon => {
+        pokemon = await getAllPokemon(pokemon.url);
+        return pokemon;
+      })
+    );
 
+    setPokemon(_pokemonData);
+  };
 
-      async function getPokemon(url) {
-        return new Promise((resolve, reject) => {
-          fetch(url)
-            .then(res => res.json())
-            .then(data => {
-              resolve(data);
-            });
-        });
-      }
-
-console.log(pokemon)
-
-  return (
-    
+  return error ? (
+    <div>Error occured</div>
+  ) : (
     <div className="App">
       <header>
-      <h1 className="title">React Hooks</h1>
-      <h3>With Pokemon</h3>
+        <h1>
+          PoKEYmon{" "}
+          <span role="img" aria-label="emoji">
+            🔑
+          </span>
+        </h1>
       </header>
-      <div className="grid-container">
-              {pokemon.map((pokemon, i) => {
-                return <Card key={i} pokemon={pokemon} />
-              })}
-            </div>
-
-      {/* <div>{pokemon.result[0].name}</div> */}
-        {/* <div>{pokemon.map(pokemon => (
-          <div></div>
-        ))}</div> */}
+      {/* //Displaying pokemon in a grid */}
+      <div className="grid">
+        {pokemon.map((pokemon, i) => {
+          return <Card key={i} pokemon={pokemon} />;
+        })}
+      </div>
     </div>
   );
 }
 
+
 export default App;
-
-  //add a catch bc that's good practice
-
-  // const pokeId = () => {
-  //   const min = Math.ceil(1)
-  //   const max = Math.floor(151)
-  //   return Math.floor(Math.random() * (max - min +1)) + min
-  // }
-
-
-  // const loadPokemon = (async () => {
-  //  const result = await  axios (
-  //     'https://pokeapi.co/api/v2/pokemon?limit=151',
-  //     );
-  //     setPokemon(result.data);
-  //     // .then(response => {
-  //       console.log(result.data)
-  //       // setPokemon(response.data)
-  //  }
-
-
-  // useEffect(() => {
-//   // GET request using fetch inside useEffect React hook
-//   fetch('https://api.npms.io/v2/search?q=react')
-//       .then(response => response.json())
-//       .then(data => setTotalReactPackages(data.total));
-
-// // empty dependency array means this effect will only run once (like componentDidMount in classes)
-// }, []);
-
-
-// fetchKantoPokemon(){
-//   fetch(‘https://pokeapi.co/api/v2/pokemon?limit=151')
-//   .then(response => response.json())
-//   .then(allpokemon => console.log(allpokemon))
-// }
