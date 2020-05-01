@@ -1,3 +1,6 @@
+# Pokeymon 🔑
+* get it - because pokemon x key living? maybe I should stray away from puns and focus on building product  😅
+
 ## How it was made
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and used the [Pokemon API](https://pokeapi.co). Didn't need to use any additional packages for this application.  
 
