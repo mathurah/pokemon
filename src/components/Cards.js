@@ -4,10 +4,10 @@ import "./Cards.css";
 function Card({ pokemon }) {
   return (
     <div className="card">
-      <div className="Card__img">
+      <div>
         <img src={pokemon.sprites.front_default} alt="" />
       </div>
-      <div className="Card__name">{pokemon.name}</div>
+      <div>{pokemon.name}</div>
     </div>
   );
 }
