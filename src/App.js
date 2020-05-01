@@ -1,5 +1,5 @@
-import React, {useState, useEffect } from "react";
-import Card from './components/Cards'
+import React, { useState, useEffect } from "react";
+import Card from "./components/Cards";
 import "./App.css";
 
 function App() {
@@ -8,8 +8,6 @@ function App() {
   const [error, setError] = useState(false);
   const apiURL = "https://pokeapi.co/api/v2/pokemon?limit=151";
 
-
-//Purpose: done after render, gets the pokemon api and then 
   useEffect(() => {
     async function fetchData() {
       let response = await getAllPokemon(apiURL);
@@ -18,7 +16,7 @@ function App() {
     fetchData();
   });
 
-  //Purpose: get all the Pokemon using the API call, and testing if the call went through with the catch error
+  //Purpose: This function makes calls to the pokemon API with the url passed in as a parameter
   function getAllPokemon(url) {
     return new Promise((resolve, reject) => {
       fetch(url)
@@ -33,6 +31,7 @@ function App() {
     });
   }
 
+  //Purpose: Loading pokemon takes in the array of all pokemon and maps it to the name and image for each pokemon
   const loadingPokemon = async data => {
     let _pokemonData = await Promise.all(
       data.map(async pokemon => {
@@ -44,10 +43,10 @@ function App() {
     setPokemon(_pokemonData);
   };
 
+  //Displaying the pokemon on the page
   return error ? (
-    <div>Error occured</div>
-  ) : (
-    <div className="App">
+    <div>Error occured</div>) : 
+    (<div className="App">
       <header>
         <h1>
           PoKEYmon{" "}
@@ -56,7 +55,6 @@ function App() {
           </span>
         </h1>
       </header>
-      {/* //Displaying pokemon in a grid */}
       <div className="grid">
         {pokemon.map((pokemon, i) => {
           return <Card key={i} pokemon={pokemon} />;
@@ -65,6 +63,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;
