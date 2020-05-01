@@ -10,14 +10,14 @@ function App() {
 
   useEffect(() => {
     async function fetchData() {
-      let response = await getAllPokemon(apiURL);
+      let response = await pokeAPICall(apiURL);
       loadingPokemon(response.results);
     }
     fetchData();
   });
 
   //Purpose: This function makes calls to the pokemon API with the url passed in as a parameter
-  function getAllPokemon(url) {
+  function pokeAPICall(url) {
     return new Promise((resolve, reject) => {
       fetch(url)
         .then(res => res.json())
@@ -35,7 +35,7 @@ function App() {
   const loadingPokemon = async data => {
     let _pokemonData = await Promise.all(
       data.map(async pokemon => {
-        pokemon = await getAllPokemon(pokemon.url);
+        pokemon = await pokeAPICall(pokemon.url);
         return pokemon;
       })
     );
