@@ -49,9 +49,9 @@ function App() {
     (<div className="App">
       <header>
         <h1>
-          PoKEYmon{" "}
+          Pokemon - Using React Hooks!{" "}
           <span role="img" aria-label="emoji">
-            🔑
+            ⚡️
           </span>
         </h1>
       </header>
